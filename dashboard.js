@@ -124,7 +124,7 @@
         
         if (redirectBtn) {
             redirectBtn.addEventListener('click', function() {
-                window.location.href = 'https://www.example.com';
+                window.location.href = '/index.html';
             });
         }
         
