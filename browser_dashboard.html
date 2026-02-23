@@ -1,0 +1,214 @@
+<!-- README Comment (visible in source) -->
+    <!-- 
+        ==============================================
+        README: Browser Environment Dashboard
+        ==============================================
+        Solution uses Tailwind CSS for styling:
+        - Part 0: Profile header with gradient and amber accent
+        - Part A: Responsive grid cards for browser info
+        - Part B: Page info cards + input with button
+        - Part C: Navigation buttons with icons
+        - Part D: Dynamic background with visual indicator
+        
+        All JavaScript is commented and organized in IIFE.
+        Background changes on load & resize (mobile/tablet/desktop).
+        Icons from Font Awesome for better visual appeal.
+    -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Environment Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Smooth transitions for background color */
+        body {
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-6 font-sans antialiased" id="mainBody">
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto">
+        <!-- ************ PART 0: PROFILE INFORMATION (Header) ************ -->
+        <header class="bg-gradient-to-r from-slate-800 to-slate-900 text-white rounded-3xl shadow-2xl mb-8 overflow-hidden border-l-8 border-amber-400">
+            <div class="p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-light mb-6 flex items-center gap-3 border-b border-amber-400/30 pb-3">
+                    <i class="fas fa-user-circle text-amber-400"></i>
+                    <span>Student & Course Profile</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm md:text-base">
+                    <div class="flex items-start gap-2">
+                        <span class="text-amber-400 font-semibold min-w-[120px]">Complete Name:</span>
+                        <span class="text-gray-200">John Marc L. Palma</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="text-amber-400 font-semibold min-w-[120px]">Sex:</span>
+                        <span class="text-gray-200">Male</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="text-amber-400 font-semibold min-w-[120px]">Address:</span>
+                        <span class="text-gray-200">Mabini St. Babumbayan Goa Camarines Sur</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="text-amber-400 font-semibold min-w-[120px]">Course, Year & Section:</span>
+                        <span class="text-gray-200">BSIT - 2nd Year - Section D</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="text-amber-400 font-semibold min-w-[120px]">School:</span>
+                        <span class="text-gray-200">Partido State Univesity (Goa Campus)</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="text-amber-400 font-semibold min-w-[120px]">Semester & A.Y.:</span>
+                        <span class="text-gray-200">2nd Sem 2025-2026</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="text-amber-400 font-semibold min-w-[120px]">Subject Code & Title:</span>
+                        <span class="text-gray-200">PF2 – Event Driven Programming</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="text-amber-400 font-semibold min-w-[120px]">Instructor:</span>
+                        <span class="text-gray-200">Mr. Arjay F. Abio</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- ************ PART A: BROWSER INFORMATION ************ -->
+        <section class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg mb-8 border border-white/50 p-6 md:p-8">
+            <h3 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-slate-700 border-l-6 border-slate-700 pl-4">
+                <i class="fas fa-globe text-sky-600"></i>
+                A. Browser & Screen Information
+            </h3>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="browserInfoPanel">
+                <!-- Dynamically populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- ************ PART B: PAGE INFORMATION AND CONTROLS ************ -->
+        <section class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg mb-8 border border-white/50 p-6 md:p-8">
+            <h3 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-slate-700 border-l-6 border-slate-700 pl-4">
+                <i class="fas fa-file-alt text-emerald-600"></i>
+                B. Page Information & Control
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200">
+                    <div class="text-xs uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1">
+                        <i class="fas fa-link"></i> Current URL
+                    </div>
+                    <div class="text-lg font-medium text-slate-800 break-all" id="currentUrl">-</div>
+                </div>
+                
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200">
+                    <div class="text-xs uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1">
+                        <i class="fas fa-server"></i> Hostname
+                    </div>
+                    <div class="text-lg font-medium text-slate-800" id="hostnameDisplay">-</div>
+                </div>
+                
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 md:col-span-2">
+                    <div class="text-xs uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1">
+                        <i class="fas fa-heading"></i> Page Title
+                    </div>
+                    <div class="text-xl font-bold text-slate-800" id="currentPageTitleDisplay">-</div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-3 items-center">
+                <input type="text" id="newTitleInput" placeholder="Enter new page title..." 
+                    class="w-full sm:flex-1 px-5 py-3 rounded-full border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-500 bg-white">
+                <button id="updateTitleBtn" 
+                    class="w-full sm:w-auto bg-slate-700 hover:bg-slate-800 text-white font-semibold px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                    <i class="fas fa-pen"></i> Update Title
+                </button>
+            </div>
+            
+            <div class="mt-4 text-sm text-slate-500 bg-slate-100 rounded-full px-5 py-2 inline-flex items-center gap-2">
+                <i class="fas fa-info-circle"></i> Click button to change the document title and the display above.
+            </div>
+        </section>
+
+        <!-- ************ PART C: NAVIGATION CONTROLS ************ -->
+        <section class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg mb-8 border border-white/50 p-6 md:p-8">
+            <h3 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-slate-700 border-l-6 border-slate-700 pl-4">
+                <i class="fas fa-compass text-purple-600"></i>
+                C. Navigation & History
+            </h3>
+            
+            <div class="flex flex-wrap gap-3 mb-6">
+                <button id="reloadPageBtn" 
+                    class="bg-white hover:bg-slate-100 text-slate-700 font-semibold px-6 py-3 rounded-full border border-slate-300 shadow-sm transition-all duration-200 flex items-center gap-2">
+                    <i class="fas fa-sync-alt"></i> Reload
+                </button>
+                <button id="redirectExampleBtn" 
+                    class="bg-white hover:bg-slate-100 text-slate-700 font-semibold px-6 py-3 rounded-full border border-slate-300 shadow-sm transition-all duration-200 flex items-center gap-2">
+                    <i class="fas fa-external-link-alt"></i> example.com
+                </button>
+                <button id="goBackBtn" 
+                    class="bg-white hover:bg-slate-100 text-slate-700 font-semibold px-6 py-3 rounded-full border border-slate-300 shadow-sm transition-all duration-200 flex items-center gap-2">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <button id="goForwardBtn" 
+                    class="bg-white hover:bg-slate-100 text-slate-700 font-semibold px-6 py-3 rounded-full border border-slate-300 shadow-sm transition-all duration-200 flex items-center gap-2">
+                    Forward <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <div class="bg-slate-100 rounded-full px-6 py-3 inline-flex items-center gap-2 text-slate-700">
+                <i class="fas fa-history"></i>
+                <span>history.length = <span id="historyLength" class="font-bold">?</span> entries</span>
+            </div>
+        </section>
+
+        <!-- ************ PART D: DYNAMIC BACKGROUND INDICATOR ************ -->
+        <section class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg mb-8 border border-white/50 p-6 md:p-8">
+            <h3 class="text-2xl font-semibold mb-6 flex items-center gap-3 text-slate-700 border-l-6 border-slate-700 pl-4">
+                <i class="fas fa-palette text-rose-500"></i>
+                D. Dynamic Background (Screen Width)
+            </h3>
+            
+            <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200 text-center">
+                <div class="flex items-center justify-center gap-4 flex-wrap">
+                    <span class="text-lg" id="screenWidthIndicator">Current width: --</span>
+                    <div class="w-8 h-8 rounded-full border-2 border-slate-300 shadow-inner" id="colorSwatch"></div>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4 mt-5 text-sm">
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-blue-400"></div>
+                        <span>Mobile (<600px) = Blue</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-green-400"></div>
+                        <span>Tablet (600-991px) = Green</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-orange-400"></div>
+                        <span>Desktop (≥992px) = Orange</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="text-center text-slate-500 text-sm py-4">
+            <i class="fas fa-code"></i> Browser Environment Dashboard — JavaScript Browser Objects in Action
+        </footer>
+    </div>
+
+    <script src="/index.js"></script>
+   
+    
+    
+
+
+</body>
+</html>
+
